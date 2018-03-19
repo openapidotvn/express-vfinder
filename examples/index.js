@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-const dcfinder = require('../src/index.js');
+const dcfinder = require('../index.js');
 
 app.get('/', function(req, res) {
   res.send('Hello World!')

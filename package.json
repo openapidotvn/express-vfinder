@@ -10,7 +10,7 @@
     "development": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "clean": "rimraf ./dist/*",
     "examples": "nodemon ./examples",
-    "precommit": "yarn run test",
+    "precommit": "yarn run build",
     "prepush": "yarn run build"
   },
   "nodemonConfig": {
