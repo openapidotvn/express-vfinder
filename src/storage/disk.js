@@ -32,8 +32,8 @@ export default class DiskStore extends StorageBase {
           updatedAt: stats.ctime,
           name: pathInfo.name,
           pwd: normalizePath(pathInfo.dir),
-          path: normalizePath(path.join(pathInfo.dir, pathInfo.base))
-        }
+          id: normalizePath(path.join(pathInfo.dir, pathInfo.base))
+        };
 
         if (isFile) {
           baseInfo = _.merge({}, baseInfo, {
@@ -47,6 +47,7 @@ export default class DiskStore extends StorageBase {
         } else {
           baseInfo = _.merge({}, baseInfo, {type: 'folder'});
         }
+
         return baseInfo;
       }
 
@@ -55,6 +56,7 @@ export default class DiskStore extends StorageBase {
   }
 
   _getInfo(filePath) {
+    console.log(filePath);
     return this._getBaseInfo(filePath).then(baseInfo => {
       return baseInfo;
     }).catch((err) => {
@@ -97,8 +99,10 @@ export default class DiskStore extends StorageBase {
   };
 
   dir(req, res) {
-    const {options} = this;
+    return this._listDir(req.query.id || '/');
+  }
 
-    return this._listDir(req.query.path || '/');
+  info(req, res) {
+    return this._getInfo(req.query.id || '/');
   }
 }
