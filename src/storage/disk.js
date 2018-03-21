@@ -5,6 +5,7 @@ import _ from 'lodash';
 import mime from 'mime';
 
 import {normalizePath} from 'utils';
+import {NotFoundError} from 'errors';
 import StorageBase from 'storage/base';
 
 const fs = Promise.promisifyAll(require('fs'));
@@ -31,9 +32,7 @@ export default class DiskStore extends StorageBase {
           updatedAt: stats.ctime,
           name: pathInfo.name,
           pwd: normalizePath(pathInfo.dir),
-          path: normalizePath(path.join(pathInfo.dir, pathInfo.base)),
-          isFolder,
-          mime: mime.lookup(pathInfo.ext)
+          path: normalizePath(path.join(pathInfo.dir, pathInfo.base))
         }
 
         if (isFile) {
@@ -42,7 +41,8 @@ export default class DiskStore extends StorageBase {
             url: options.baseUrl + relativeUrl,
             size: stats.size || 0,
             type: 'file',
-            fileName: pathInfo.base
+            fileName: pathInfo.base,
+            mime: mime.lookup(pathInfo.ext)
           });
         } else {
           baseInfo = _.merge({}, baseInfo, {type: 'folder'});
@@ -74,9 +74,9 @@ export default class DiskStore extends StorageBase {
         if (stats.isDirectory()) {
           return stats;
         }
-        return Promise.reject(new Error({code: 400, message: 'Not found'}));
-      }).catch(() => {
-        return Promise.reject(new Error({code: 400, message: 'Not found'}));
+        throw new NotFoundError('Directory not found');
+      }).catch(err => {
+        throw new NotFoundError('Directory not found');
       });
     }).then(() => {
       //read dir

@@ -8,13 +8,18 @@ export default class StorageBase {
       throw new Error('API must be a function');
     }
 
-    return (req, res) => {
+    return(req, res) => {
       func.call(this, req, res).then(data => {
-        res.json(data);
+        res.json({data});
       }).catch(err => {
-        console.log(err)
-        res.json({code: err.code, message: err.message});
-      })
+        res.status(err.status).json({
+          error: {
+            code: err.code,
+            message: err.message,
+            name: err.name
+          }
+        });
+      });
     };
   }
 
