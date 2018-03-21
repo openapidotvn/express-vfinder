@@ -9,8 +9,6 @@ import StorageBase from 'storage/base';
 
 const fs = Promise.promisifyAll(require('fs'));
 
-/* listing */
-
 export default class DiskStore extends StorageBase {
   constructor(options) {
     super(options);

@@ -10,25 +10,18 @@ module.exports = {
   },
   watch: process.env.NODE_ENV === 'development',
   watchOptions: {
-    aggregateTimeout: 1000 ,
+    aggregateTimeout: 1000,
     poll: 1000
   },
   target: 'node',
   externals: [nodeExternals()],
-  resolve: {
-    modules: [path.resolve('./src')]
-  },
   mode: process.env.NODE_ENV,
   module: {
     rules: [
       {
         test: /\.js$/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['env'],
-            plugins: ['babel-plugin-syntax-object-rest-spread', 'babel-plugin-transform-export-extensions']
-          }
+          loader: 'babel-loader'
         }
       }
     ]

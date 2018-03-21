@@ -1,38 +1,33 @@
 {
-  "name": "express-dcfinder",
+  "name": "express-vfinder",
   "version": "1.0.0",
-  "description": "express-dcfinder",
+  "description": "express-vfinder",
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"No test case\" && exit 1",
     "prebuild": "yarn run clean",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "development": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+    "watch": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "clean": "rimraf ./dist/*",
-    "examples": "nodemon ./examples",
-    "precommit": "yarn run build",
+    "dev": "nodemon --exec babel-node ./examples",
     "prepush": "yarn run build"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "examples/*",
-      "dist/*"
-    ]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/phamdohung161/express-dcfinder.git"
+    "url": "git+https://github.com/openapivn/express-vfinder.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/phamdohung161/express-dcfinder/issues"
+    "url": "https://github.com/openapivn/express-vfinder/issues"
   },
-  "homepage": "https://github.com/phamdohung161/express-dcfinder#readme",
+  "homepage": "https://github.com/openapivn/express-vfinder#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-module-resolver": "^3.1.0",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-preset-env": "^1.6.1",
