@@ -1,0 +1,10 @@
+{
+  "presets": ["env"],
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"]
+    }],
+    "syntax-object-rest-spread",
+    "transform-export-extensions"
+  ]
+}

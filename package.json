@@ -1,43 +1,42 @@
 {
-  "name": "express-dcfinder",
+  "name": "express-vfinder",
   "version": "1.0.0",
-  "description": "express-dcfinder",
+  "description": "express-vfinder",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"No test case\" && exit 1",
-    "prebuild": "yarn run clean",
+    "test": "mocha --require babel-register",
+    "prebuild": "yarn run clean & yarn run test",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "development": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+    "watch": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "clean": "rimraf ./dist/*",
-    "examples": "nodemon ./examples",
-    "precommit": "yarn run test",
+    "start-no-debugger": "nodemon --exec babel-node ./examples",
+    "start": "nodemon --inspect --exec babel-node ./examples",
     "prepush": "yarn run build"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "examples/*",
-      "dist/*"
-    ]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/phamdohung161/express-dcfinder.git"
+    "url": "git+https://github.com/openapivn/express-vfinder.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/phamdohung161/express-dcfinder/issues"
+    "url": "https://github.com/openapivn/express-vfinder/issues"
   },
-  "homepage": "https://github.com/phamdohung161/express-dcfinder#readme",
+  "homepage": "https://github.com/openapivn/express-vfinder#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-module-resolver": "^3.1.0",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
     "cross-env": "^5.1.4",
     "husky": "^0.15.0-rc.12",
+    "mocha": "^5.0.4",
     "nodemon": "^1.17.2",
     "rimraf": "^2.6.2",
     "webpack": "^4.1.1",
@@ -49,9 +48,9 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
+    "joi": "^13.1.2",
     "lodash": "^4.17.5",
     "mime": "^1.4.0",
-    "mine": "^0.1.0",
     "multer": "^1.3.0",
     "serve-static": "^1.13.2"
   }

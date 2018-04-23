@@ -5,7 +5,7 @@ import serveStatic from 'serve-static';
 
 import DiskStore from 'storage/disk';
 
-export default class DCFinder {
+export default class VFinder {
   constructor(options = {}) {
 
     this.options = this.getOptions(options);
@@ -20,7 +20,7 @@ export default class DCFinder {
   getOptions(options) {
     return {
       baseUrl: options.baseUrl,
-      apiPath: options.apiPath || '/dcfinder',
+      apiPath: options.apiPath || '/vfinder',
       staticPath: options.staticPath || '/static',
       staticFolder: options.staticFolder,
       bodyParser: options.bodyParser || true,

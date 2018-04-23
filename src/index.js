@@ -1,9 +1,9 @@
-import DCFinder from 'lib/dcfinder';
+import VFinder from 'lib/vfinder';
 import StorageBase from 'storage/base';
 import DiskStore from 'storage/disk';
 
-export default function dcfinder(options) {
-  const dcfinder = new DCFinder(options);
+export default function vfinderMiddlewareCreator(options) {
+  const vfinder = new VFinder(options);
 
-  return dcfinder.handler();
+  return vfinder.handler();
 };

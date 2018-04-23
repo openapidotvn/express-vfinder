@@ -5,11 +5,10 @@ import _ from 'lodash';
 import mime from 'mime';
 
 import {normalizePath} from 'utils';
+import {NotFoundError} from 'errors';
 import StorageBase from 'storage/base';
 
 const fs = Promise.promisifyAll(require('fs'));
-
-/* listing */
 
 export default class DiskStore extends StorageBase {
   constructor(options) {
@@ -33,10 +32,8 @@ export default class DiskStore extends StorageBase {
           updatedAt: stats.ctime,
           name: pathInfo.name,
           pwd: normalizePath(pathInfo.dir),
-          path: normalizePath(path.join(pathInfo.dir, pathInfo.base)),
-          isFolder,
-          mime: mime.lookup(pathInfo.ext)
-        }
+          id: normalizePath(path.join(pathInfo.dir, pathInfo.base))
+        };
 
         if (isFile) {
           baseInfo = _.merge({}, baseInfo, {
@@ -44,11 +41,13 @@ export default class DiskStore extends StorageBase {
             url: options.baseUrl + relativeUrl,
             size: stats.size || 0,
             type: 'file',
-            fileName: pathInfo.base
+            fileName: pathInfo.base,
+            mime: mime.lookup(pathInfo.ext)
           });
         } else {
           baseInfo = _.merge({}, baseInfo, {type: 'folder'});
         }
+
         return baseInfo;
       }
 
@@ -57,6 +56,7 @@ export default class DiskStore extends StorageBase {
   }
 
   _getInfo(filePath) {
+    console.log(filePath);
     return this._getBaseInfo(filePath).then(baseInfo => {
       return baseInfo;
     }).catch((err) => {
@@ -76,9 +76,9 @@ export default class DiskStore extends StorageBase {
         if (stats.isDirectory()) {
           return stats;
         }
-        return Promise.reject(new Error({code: 400, message: 'Not found'}));
-      }).catch(() => {
-        return Promise.reject(new Error({code: 400, message: 'Not found'}));
+        throw new NotFoundError('Directory not found');
+      }).catch(err => {
+        throw new NotFoundError('Directory not found');
       });
     }).then(() => {
       //read dir
@@ -99,8 +99,10 @@ export default class DiskStore extends StorageBase {
   };
 
   dir(req, res) {
-    const {options} = this;
+    return this._listDir(req.query.id || '/');
+  }
 
-    return this._listDir(req.query.path || '/');
+  info(req, res) {
+    return this._getInfo(req.query.id || '/');
   }
 }
